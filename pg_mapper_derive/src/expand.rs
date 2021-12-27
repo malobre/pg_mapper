@@ -1,12 +1,15 @@
-use proc_macro::{self, TokenStream};
+use proc_macro2::TokenStream;
 use quote::{quote, quote_spanned};
-use syn::{parse_macro_input, spanned::Spanned, Data, DataStruct, DeriveInput, Fields};
+use syn::{spanned::Spanned, Data, DataStruct, DeriveInput, Error, Fields};
 
-#[proc_macro_derive(TryFromRow)]
-pub fn derive(input: TokenStream) -> TokenStream {
-    let DeriveInput { ident, data, .. } = parse_macro_input!(input);
+pub fn try_from_row(input: DeriveInput) -> Result<TokenStream, Error> {
+    let DeriveInput {
+        ref ident,
+        ref data,
+        ..
+    } = input;
 
-    let fields = match data {
+    let body = match data {
         Data::Struct(DataStruct { fields, .. }) => match fields {
             Fields::Named(ref fields) => {
                 let recurse = fields.named.iter().map(|field| {
@@ -18,14 +21,21 @@ pub fn derive(input: TokenStream) -> TokenStream {
                 });
 
                 quote! {
-                    #(#recurse)*
+                    Ok(Self {
+                        #(#recurse)*
+                    })
                 }
             }
-            Fields::Unit | Fields::Unnamed(_) => {
-                unimplemented!("Unit & Unnamed struct fields are not supported")
+            bad @ (Fields::Unnamed(_) | Fields::Unit) => {
+                return Err(Error::new_spanned(bad, "Unnamed fields and Unit structs are not supported"))
             }
         },
-        Data::Enum(_) | Data::Union(_) => unimplemented!("Enum & Union are not supported"),
+        Data::Enum(_) | Data::Union(_) => {
+            return Err(Error::new_spanned(
+                input,
+                "Enum and unions are not supported",
+            ))
+        }
     };
 
     let expanded = quote! {
@@ -33,12 +43,10 @@ pub fn derive(input: TokenStream) -> TokenStream {
            type Error = ::tokio_postgres::Error;
 
             fn try_from(row: ::tokio_postgres::Row) -> Result<Self, Self::Error> {
-                Ok(Self {
-                    #fields
-                })
+                #body
             }
         }
     };
 
-    TokenStream::from(expanded)
+    Ok(TokenStream::from(expanded))
 }

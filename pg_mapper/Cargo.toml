@@ -1,0 +1,10 @@
+[package]
+name = "pg_mapper"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+pg_mapper_derive = { path = "../pg_mapper_derive" }
+
+[dev-dependencies]
+tokio-postgres = "0.7"

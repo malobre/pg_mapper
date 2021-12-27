@@ -30,13 +30,10 @@ pub use pg_mapper_derive::TryFromRow;
 
 #[cfg(test)]
 mod tests {
-    #[test]
-    fn it_works() {
-        #[derive(crate::TryFromRow)]
-        #[allow(dead_code)]
-        struct User {
-            email: String,
-            password_digest: String,
-        }
+    #[derive(crate::TryFromRow)]
+    #[allow(dead_code)]
+    struct NamedFields {
+        first: String,
+        second: i32,
     }
 }

@@ -1,10 +1,5 @@
-[package]
-name = "pg-mapper"
-version = "0.1.0"
-edition = "2021"
-
-[dependencies]
-pg-mapper-derive = { path = "pg-mapper-derive" }
-
-[dev-dependencies]
-tokio-postgres = "0.7"
+[workspace]
+members = [
+    "pg_mapper",
+    "pg_mapper_derive",
+]
