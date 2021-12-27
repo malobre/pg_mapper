@@ -1,5 +1,19 @@
-[workspace]
-members = [
-    "pg_mapper",
-    "pg_mapper_derive",
-]
+[package]
+name = "pg_mapper"
+description = "derive `TryFrom<tokio_postgres::Row>`"
+authors = ["Maël Obréjan <mael.obrejan@protonmail.com>"]
+license = "MIT"
+version = "0.1.0"
+edition = "2021"
+repository = "https://github.com/malobre/pg_mapper"
+readme = "README.md"
+keywords = ["postgres", "derive", "row"]
+include = ["src/**/*", "Cargo.toml", "LICENSE"]
+
+[lib]
+proc-macro = true
+
+[dependencies]
+proc-macro2 = "1"
+quote = "1"
+syn = "1"
