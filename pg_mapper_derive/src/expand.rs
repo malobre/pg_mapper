@@ -26,8 +26,21 @@ pub fn try_from_row(input: DeriveInput) -> Result<TokenStream, Error> {
                     })
                 }
             }
-            bad @ (Fields::Unnamed(_) | Fields::Unit) => {
-                return Err(Error::new_spanned(bad, "Unnamed fields and Unit structs are not supported"))
+            Fields::Unnamed(ref fields) => {
+                let recurse = fields.unnamed.iter().enumerate().map(|(index, field)| {
+                    quote_spanned! { field.span() =>
+                        row.try_get(#index)?,
+                    }
+                });
+
+                quote! {
+                    Ok(Self(
+                        #(#recurse)*
+                    ))
+                }
+            }
+            bad @ Fields::Unit => {
+                return Err(Error::new_spanned(bad, "Unit structs are not supported"))
             }
         },
         Data::Enum(_) | Data::Union(_) => {
@@ -48,5 +61,5 @@ pub fn try_from_row(input: DeriveInput) -> Result<TokenStream, Error> {
         }
     };
 
-    Ok(TokenStream::from(expanded))
+    Ok(expanded)
 }

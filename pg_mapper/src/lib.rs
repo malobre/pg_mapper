@@ -36,4 +36,8 @@ mod tests {
         first: String,
         second: i32,
     }
+
+    #[derive(crate::TryFromRow)]
+    #[allow(dead_code)]
+    struct UnnamedFields(i64);
 }
