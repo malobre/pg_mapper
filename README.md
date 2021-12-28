@@ -1,4 +1,6 @@
-# `#[derive(pg_mapper::TryFromRow)]`
+# `#[derive(TryFromRow)]`
+
+[Documentation](https://docs.rs/pg_mapper) | [Crates.io](https://crates.io/crates/pg_mapper)
 
 # Example
 ```rust
