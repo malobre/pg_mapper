@@ -16,6 +16,10 @@
 //!
 //! Generates:
 //! ```rust
+//! # struct User {
+//! #     email: String,
+//! #     password_digest: String,
+//! # }
 //! impl TryFrom<tokio_postgres::Row> for User {
 //!     type Error = tokio_postgres::Error;
 //!     fn try_from(row: tokio_postgres::Row) -> Result<Self, Self::Error> {
@@ -26,6 +30,7 @@
 //!     }
 //! }
 //!
+//! # struct Point(i32, i32, i32);
 //! impl TryFrom<tokio_postgres::Row> for Point {
 //!     type Error = tokio_postgres::Error;
 //!     fn try_from(row: tokio_postgres::Row) -> Result<Self, Self::Error> {
