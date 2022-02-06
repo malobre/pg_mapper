@@ -51,17 +51,3 @@ pub fn derive_try_from_row(input: TokenStream) -> TokenStream {
         .unwrap_or_else(|error| error.to_compile_error())
         .into()
 }
-
-#[cfg(test)]
-mod tests {
-    #[derive(crate::TryFromRow)]
-    #[allow(dead_code)]
-    struct NamedFields {
-        first: String,
-        second: i32,
-    }
-
-    #[derive(crate::TryFromRow)]
-    #[allow(dead_code)]
-    struct UnnamedFields(i64);
-}

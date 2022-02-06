@@ -20,3 +20,4 @@ syn = "1.0.86"
 
 [dev-dependencies]
 tokio-postgres = { version = "0.7.5", default-features = false }
+trybuild = "1.0.55"

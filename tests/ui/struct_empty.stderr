@@ -1,0 +1,5 @@
+error: `TryFromRow`: cannot derive for empty struct
+ --> tests/ui/struct_empty.rs:2:17
+  |
+2 | struct MyStruct {}
+  |                 ^^

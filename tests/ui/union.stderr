@@ -1,0 +1,7 @@
+error: `TryFromRow`: unions are not supported
+ --> tests/ui/union.rs:2:1
+  |
+2 | / union MyUnion {
+3 | |     field: usize
+4 | | }
+  | |_^

@@ -1,0 +1,5 @@
+error: `TryFromRow`: enums are not supported
+ --> tests/ui/enum.rs:2:1
+  |
+2 | enum MyEnum {}
+  | ^^^^^^^^^^^^^^
