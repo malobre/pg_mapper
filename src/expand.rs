@@ -40,11 +40,24 @@ pub fn try_from_row(input: DeriveInput) -> Result<TokenStream, Error> {
                 }
             }
             bad @ Fields::Unit => {
-                return Err(Error::new_spanned(bad, "unit structs are not supported"))
+                return Err(Error::new_spanned(
+                    bad,
+                    "`TryFromRow`: unit-struct are not supported",
+                ))
             }
         },
-        Data::Enum(_) => return Err(Error::new_spanned(input, "enums are not supported")),
-        Data::Union(_) => return Err(Error::new_spanned(input, "unions are not supported")),
+        Data::Enum(_) => {
+            return Err(Error::new_spanned(
+                input,
+                "`TryFromRow`: enums are not supported",
+            ))
+        }
+        Data::Union(_) => {
+            return Err(Error::new_spanned(
+                input,
+                "`TryFromRow`: unions are not supported",
+            ))
+        }
     };
 
     let expanded = quote! {
