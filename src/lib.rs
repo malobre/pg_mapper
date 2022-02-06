@@ -38,7 +38,7 @@
 //!     }
 //! }
 //! ```
-use proc_macro::{self, TokenStream};
+use proc_macro::TokenStream;
 use syn::parse_macro_input;
 
 mod expand;
