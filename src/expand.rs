@@ -12,6 +12,13 @@ pub fn try_from_row(input: DeriveInput) -> Result<TokenStream, Error> {
     let body = match data {
         Data::Struct(DataStruct { fields, .. }) => match fields {
             Fields::Named(ref fields) => {
+                if fields.named.is_empty() {
+                    return Err(Error::new_spanned(
+                        fields,
+                        "`TryFromRow`: cannot derive for empty struct",
+                    ));
+                }
+
                 let recurse = fields.named.iter().map(|field| {
                     let name = field.ident.as_ref();
                     let name_str = name.map(ToString::to_string);
@@ -27,6 +34,13 @@ pub fn try_from_row(input: DeriveInput) -> Result<TokenStream, Error> {
                 }
             }
             Fields::Unnamed(ref fields) => {
+                if fields.unnamed.is_empty() {
+                    return Err(Error::new_spanned(
+                        fields,
+                        "`TryFromRow`: cannot derive for empty tuple-struct",
+                    ));
+                }
+
                 let recurse = fields.unnamed.iter().enumerate().map(|(index, field)| {
                     quote_spanned! { field.span() =>
                         row.try_get(#index)?,
