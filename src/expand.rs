@@ -13,8 +13,8 @@ pub fn try_from_row(input: DeriveInput) -> Result<TokenStream, Error> {
         Data::Struct(DataStruct { fields, .. }) => match fields {
             Fields::Named(ref fields) => {
                 let recurse = fields.named.iter().map(|field| {
-                    let name = &field.ident;
-                    let name_str = name.clone().map(|ident| ident.to_string());
+                    let name = field.ident.as_ref();
+                    let name_str = name.map(ToString::to_string);
                     quote_spanned! { field.span() =>
                         #name: row.try_get(#name_str)?,
                     }
