@@ -53,10 +53,10 @@ pub fn try_from_row(input: DeriveInput) -> Result<TokenStream, Error> {
                     ))
                 }
             }
-            bad @ Fields::Unit => {
+            Fields::Unit => {
                 return Err(Error::new_spanned(
-                    bad,
-                    "`TryFromRow`: unit-struct are not supported",
+                    input,
+                    "`TryFromRow`: unit-structs are not supported",
                 ))
             }
         },

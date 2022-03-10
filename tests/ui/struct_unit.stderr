@@ -1,7 +1,5 @@
-error: `TryFromRow`: unit-struct are not supported
- --> tests/ui/struct_unit.rs:1:10
+error: `TryFromRow`: unit-structs are not supported
+ --> tests/ui/struct_unit.rs:2:1
   |
-1 | #[derive(pg_mapper::TryFromRow)]
-  |          ^^^^^^^^^^^^^^^^^^^^^
-  |
-  = note: this error originates in the derive macro `pg_mapper::TryFromRow` (in Nightly builds, run with -Z macro-backtrace for more info)
+2 | struct MyStruct;
+  | ^^^^^^^^^^^^^^^^
